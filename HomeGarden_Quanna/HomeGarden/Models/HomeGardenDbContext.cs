@@ -49,6 +49,7 @@ public partial class HomeGardenDbContext : DbContext
     }
 
 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Alert>(entity =>
@@ -510,8 +511,26 @@ public partial class HomeGardenDbContext : DbContext
                 .HasConstraintName("FK__users__status_id__59063A47");
         });
 
+        ApplySoftDeleteFilters(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
+
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
+    private void ApplySoftDeleteFilters(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+        modelBuilder.Entity<Role>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+        modelBuilder.Entity<Area>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+        modelBuilder.Entity<Plant>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+        modelBuilder.Entity<Schedule>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+        modelBuilder.Entity<PlantLog>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+        modelBuilder.Entity<Alert>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+        modelBuilder.Entity<Resource>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+        modelBuilder.Entity<PlantResourceUsage>().HasQueryFilter(x => x.IsDeleted == false || x.IsDeleted == null);
+    }
+
+
 }
