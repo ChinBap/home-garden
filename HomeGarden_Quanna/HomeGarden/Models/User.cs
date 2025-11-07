@@ -31,9 +31,19 @@ public partial class User
 
     public virtual ICollection<Area> Areas { get; set; } = new List<Area>();
 
+    public virtual ICollection<EmailNotification> EmailNotifications { get; set; } = new List<EmailNotification>();
+
+    public virtual ICollection<MediaFile> MediaFiles { get; set; } = new List<MediaFile>();
+
     public virtual ICollection<Resource> Resources { get; set; } = new List<Resource>();
 
     public virtual Role Role { get; set; } = null!;
 
     public virtual StatusDefinition Status { get; set; } = null!;
+
+    public virtual ICollection<SubscriptionPayment> SubscriptionPayments { get; set; } = new List<SubscriptionPayment>();
+
+    public virtual ICollection<UserNotification> UserNotifications { get; set; } = new List<UserNotification>();
+
+    public virtual ICollection<UserSubscription> UserSubscriptions { get; set; } = new List<UserSubscription>();
 }

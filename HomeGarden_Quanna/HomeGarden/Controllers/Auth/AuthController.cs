@@ -18,7 +18,8 @@ namespace HomeGarden.Controllers.Auth
 
         public AuthController(HomeGardenDbContext db, IConfiguration config)
         {
-            _db = db; _config = config;
+            _db = db;
+            _config = config;
         }
 
         [HttpPost("register")]
@@ -49,8 +50,10 @@ namespace HomeGarden.Controllers.Auth
         [AllowAnonymous]
         public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginDto dto)
         {
-            var user = await _db.Users.Include(u => u.Role).Include(u => u.Status)
-                        .FirstOrDefaultAsync(u => u.Email == dto.Email);
+            var user = await _db.Users
+                .Include(u => u.Role)
+                .Include(u => u.Status)
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return Unauthorized("Sai email hoặc mật khẩu");
 
@@ -72,8 +75,10 @@ namespace HomeGarden.Controllers.Auth
         public async Task<ActionResult<ProfileDto>> Profile()
         {
             if (CurrentUserId is null) return Unauthorized();
-            var u = await _db.Users.Include(x => x.Role).Include(x => x.Status)
-                    .FirstOrDefaultAsync(x => x.UserId == CurrentUserId);
+            var u = await _db.Users
+                .Include(x => x.Role)
+                .Include(x => x.Status)
+                .FirstOrDefaultAsync(x => x.UserId == CurrentUserId);
             if (u == null) return NotFound();
 
             return new ProfileDto

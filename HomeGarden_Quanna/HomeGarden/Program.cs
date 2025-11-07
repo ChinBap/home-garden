@@ -28,6 +28,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddScoped<HomeGarden.Services.EmailService>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();

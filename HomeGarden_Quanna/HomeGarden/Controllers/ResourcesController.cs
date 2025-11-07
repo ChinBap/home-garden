@@ -14,10 +14,7 @@ namespace HomeGarden.Controllers
         private readonly HomeGardenDbContext _db;
         public ResourcesController(HomeGardenDbContext db) => _db = db;
 
-        // ======================================================
-        // 🔹 GET /api/resources
-        // Lấy danh sách tài nguyên (theo user hoặc admin)
-        // ======================================================
+        
         [HttpGet]
         public async Task<ActionResult<ApiResponse<List<ResourceDto>>>> GetMyResources(
             [FromQuery] string? type = null, [FromQuery] string? status = null)
@@ -57,10 +54,6 @@ namespace HomeGarden.Controllers
             return ApiResponse.Success(list);
         }
 
-        // ======================================================
-        // 🔹 POST /api/resources
-        // Tạo tài nguyên mới
-        // ======================================================
         [HttpPost]
         public async Task<ActionResult<ApiResponse<object>>> Create([FromBody] ResourceCreateDto dto)
         {
@@ -97,10 +90,7 @@ namespace HomeGarden.Controllers
             return ApiResponse.Success((object)new { resource.ResourceId }, "Tạo tài nguyên thành công");
         }
 
-        // ======================================================
-        // 🔹 PATCH /api/resources/{id}
-        // Cập nhật thông tin tài nguyên
-        // ======================================================
+      
         [HttpPatch("{id:long}")]
         public async Task<ActionResult<ApiResponse<string>>> Update(long id, [FromBody] ResourceUpdateDto dto)
         {
@@ -123,10 +113,7 @@ namespace HomeGarden.Controllers
             return ApiResponse.Success("Cập nhật tài nguyên thành công");
         }
 
-        // ======================================================
-        // 🔹 DELETE /api/resources/{id}
-        // Xóa mềm tài nguyên
-        // ======================================================
+       
         [HttpDelete("{id:long}")]
         public async Task<ActionResult<ApiResponse<string>>> SoftDelete(long id)
         {
