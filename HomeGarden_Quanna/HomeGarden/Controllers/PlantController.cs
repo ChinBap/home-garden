@@ -98,7 +98,7 @@ namespace HomeGarden.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Technician,Admin")]
+        [Authorize(Roles = "User,Technician,Admin")]
         public async Task<ActionResult<ApiResponse<object>>> Create([FromBody] PlantCreateDto dto)
         {
             var area = await _db.Areas
@@ -131,7 +131,7 @@ namespace HomeGarden.Controllers
         }
 
         [HttpPatch("{id:long}")]
-        [Authorize(Roles = "Technician,Admin")]
+        [Authorize(Roles = "User,Technician,Admin")]
         public async Task<ActionResult<ApiResponse<string>>> Update(long id, [FromBody] PlantUpdateDto dto)
         {
             var p = await _db.Plants
@@ -159,7 +159,7 @@ namespace HomeGarden.Controllers
         }
 
         [HttpDelete("{id:long}")]
-        [Authorize(Roles = "Technician,Admin")]
+        [Authorize(Roles = "User,Technician,Admin")]
         public async Task<ActionResult<ApiResponse<string>>> SoftDelete(long id)
         {
             var p = await _db.Plants

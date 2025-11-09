@@ -14,10 +14,6 @@ namespace HomeGarden.Controllers
         private readonly HomeGardenDbContext _db;
         public SchedulesController(HomeGardenDbContext db) => _db = db;
 
-        // ======================================================
-        // 🔹 GET /api/schedules?plantId=123
-        // Danh sách lịch trình của cây (lọc theo quyền)
-        // ======================================================
         [HttpGet]
         public async Task<ActionResult<ApiResponse<List<ScheduleListDto>>>> List([FromQuery] long? plantId)
         {
@@ -49,12 +45,9 @@ namespace HomeGarden.Controllers
             return ApiResponse.Success(list);
         }
 
-        // ======================================================
-        // 🔹 POST /api/schedules
-        // Tạo mới lịch cho 1 cây
-        // ======================================================
+        
         [HttpPost]
-        [Authorize(Roles = "Technician,Admin")]
+        [Authorize(Roles = "User,Technician,Admin")]
         public async Task<ActionResult<ApiResponse<object>>> Create([FromBody] ScheduleCreateDto dto)
         {
             if (dto.NextDue < DateTime.Now)
@@ -93,10 +86,7 @@ namespace HomeGarden.Controllers
             return ApiResponse.Success((object)new { schedule.ScheduleId }, "Tạo lịch thành công");
         }
 
-        // ======================================================
-        // 🔹 POST /api/schedules/{id}/done
-        // Đánh dấu lịch đã hoàn thành và sinh lịch mới kế tiếp
-        // ======================================================
+       
         [HttpPost("{id:long}/done")]
         public async Task<ActionResult<ApiResponse<string>>> MarkDone(long id, [FromBody] ScheduleDoneDto dto)
         {
@@ -146,9 +136,7 @@ namespace HomeGarden.Controllers
             return ApiResponse.Success("Đã đánh dấu hoàn thành và tạo lịch kế tiếp");
         }
 
-        // ======================================================
-        // 🔸 Logic tính NextDue kế tiếp
-        // ======================================================
+     
         private DateTime ComputeNextDue(DateTime from, string frequency)
         {
             frequency = frequency?.ToLower() ?? "daily";
